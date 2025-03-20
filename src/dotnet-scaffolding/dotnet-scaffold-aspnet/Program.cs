@@ -29,7 +29,7 @@ public static class Program
 
         builder.AddScaffolder("sayedha-test")
             .WithDisplayName("Entra Auth")
-            .WithCategory("Identity")
+            .WithCategory("Blazor2")
             .WithDescription("Adds Entra Auth to the selected application")
             .WithOption(projectOption)
             .WithOption(fileNameOption)
@@ -37,15 +37,15 @@ public static class Program
             {
                 var step = config.Step;
                 var context = config.Context;
-                step.ProjectPath = context.GetOptionResult(projectOption);
-                step.FileName = context.GetOptionResult(fileNameOption);
-                step.CommandName = Constants.DotnetCommands.RazorComponentCommandName;
+                // step.ProjectPath = context.GetOptionResult(projectOption);
+                // step.FileName = context.GetOptionResult(fileNameOption);
+                // step.CommandName = Constants.DotnetCommands.RazorComponentCommandName;
             });
 
         builder.AddScaffolder("blazor-empty")
             .WithDisplayName("Razor Component")
             .WithCategory("Blazor")
-            .WithDescription("Add an empty razor component to a given project")
+            .WithDescription("222222Add an empty razor component to a given project")
             .WithOption(projectOption)
             .WithOption(fileNameOption)
             .WithStep<DotnetNewScaffolderStep>(config =>
@@ -166,7 +166,7 @@ public static class Program
             .WithMvcViewsStep();
 
         builder.AddScaffolder("blazor-crud")
-            .WithDisplayName("Razor Components with EntityFrameworkCore (CRUD)")
+            .WithDisplayName("2222Razor Components with EntityFrameworkCore (CRUD)")
             .WithCategory("Blazor")
             .WithDescription("Generates Razor Components using Entity Framework for Create, Delete, Details, Edit and List operations for the given model")
             .WithOptions([projectOption, modelNameOption, dataContextClassRequiredOption, databaseProviderRequiredOption, pageTypeOption, prereleaseOption])
