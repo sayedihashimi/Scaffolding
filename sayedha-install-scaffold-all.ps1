@@ -14,24 +14,7 @@ param(
 
 function Clean(){
     Write-Host  "### Clean" -ForegroundColor Red
-    # delete artifacts dir
-    # if(test-path -Path $artifactsDir){
-    #     Remove-Item -Path $artifactsDir -Recurse -Force
-    # }
     DeleteFolder -f $artifactsDir
-#     ECHO ### START DELETE PACKAGES
-# call cd %DEFAULT_NUPKG_PATH%
-# call rd /Q /S Microsoft.dotnet-scaffold
-# call rd /Q /S Microsoft.dotnet-scaffold-aspire
-# call rd /Q /S Microsoft.dotnet-scaffold-aspnet
-# call rd /Q /S Microsoft.DotNet.Scaffolding.Internal
-# call rd /Q /S Microsoft.DotNet.Scaffolding.Core
-# ECHO ### END DELETE PACKAGES
-
-
-
-
-    # C:\Users\sayedha\.dotnet\tools\.store\microsoft.dotnet-scaffold-aspire\9.0.1-dev\microsoft.dotnet-scaffold-aspire\9.0.1-dev
 }
 function Build(){
     Write-Host "### Build" -ForegroundColor Red
@@ -70,21 +53,6 @@ function Uninstall(){
 
     DeleteFolder -folder $foldersToDelte
     DeleteFile -file $filesToDelete
-
-    # Remove-Item -Path (Join-Path $defaultNupkgDir Microsoft.dotnet-scaffold) -Recurse -Force
-    # Remove-Item -Path (Join-Path $defaultNupkgDir Microsoft.dotnet-scaffold-aspire) -Recurse -Force
-    # Remove-Item -Path (Join-Path $defaultNupkgDir Microsoft.dotnet-scaffold-aspnet) -Recurse -Force
-    # Remove-Item -Path (Join-Path $defaultNupkgDir Microsoft.DotNet.Scaffolding.Internal) -Recurse -Force
-    # Remove-Item -Path (Join-Path $defaultNupkgDir Microsoft.DotNet.Scaffolding.Core) -Recurse -Force
-
-
-    # Remove-Item -Path (Join-Path $defaultToolsFolder dotnet-scaffold.exe)
-    # Remove-Item -Path (Join-Path $defaultToolsFolder dotnet-scaffold-aspire.exe)
-    # Remove-Item -Path (Join-Path $defaultToolsFolder dotnet-scaffold-aspnet.exe)
-
-    # Remove-Item -Path (Join-Path $defaultToolsStoreFolder Microsoft.dotnet-scaffold) -Recurse -Force
-    # Remove-Item -Path (Join-Path $defaultToolsStoreFolder Microsoft.dotnet-scaffold-aspire) -Recurse -Force
-    # Remove-Item -Path (Join-Path $defaultToolsStoreFolder Microsoft.dotnet-scaffold-aspnet) -Recurse -Force
 }
 
 function DeleteFolder{
@@ -97,7 +65,6 @@ function DeleteFolder{
             foreach($f in $folder){
                 if(Test-Path -LiteralPath $f){
                     Remove-Item -LiteralPath $f -Recurse -Force
-                    #'removing item {0}' -f $f | Write-Host -ForegroundColor Green
                 }
             }
         }
@@ -114,7 +81,6 @@ function DeleteFile{
             foreach($f in $file){
                 if(Test-Path -LiteralPath $f){
                     Remove-Item -LiteralPath $f
-                    #'removing item {0}' -f $f | Write-Host -ForegroundColor Green
                 }
             }
         }
