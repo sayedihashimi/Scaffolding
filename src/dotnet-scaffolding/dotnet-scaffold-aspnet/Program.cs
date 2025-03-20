@@ -27,6 +27,21 @@ public static class Program
             out var databaseProviderRequiredOption, out var identityDbProviderRequiredOption, out var dataContextClassOption, out var dataContextClassRequiredOption,
             out var openApiOption, out var pageTypeOption, out var controllerNameOption, out var viewsOption, out var overwriteOption);
 
+        builder.AddScaffolder("sayedha-test")
+            .WithDisplayName("Entra Auth")
+            .WithCategory("Identity")
+            .WithDescription("Adds Entra Auth to the selected application")
+            .WithOption(projectOption)
+            .WithOption(fileNameOption)
+            .WithStep<DotnetNewScaffolderStep>(config =>
+            {
+                var step = config.Step;
+                var context = config.Context;
+                step.ProjectPath = context.GetOptionResult(projectOption);
+                step.FileName = context.GetOptionResult(fileNameOption);
+                step.CommandName = Constants.DotnetCommands.RazorComponentCommandName;
+            });
+
         builder.AddScaffolder("blazor-empty")
             .WithDisplayName("Razor Component")
             .WithCategory("Blazor")

@@ -120,7 +120,6 @@ function Build {
     /p:Build=$build `
     /p:Rebuild=$rebuild `
     /p:Deploy=$deploy `
-    /p:Test=$test `
     /p:Pack=$pack `
     /p:DotNetBuildRepo=$productBuild `
     /p:IntegrationTest=$integrationTest `
