@@ -26,7 +26,8 @@ public static class Program
             out var areaNameOption, out var modelNameOption, out var endpointsClassOption, out var databaseProviderOption,
             out var databaseProviderRequiredOption, out var identityDbProviderRequiredOption, out var dataContextClassOption, out var dataContextClassRequiredOption,
             out var openApiOption, out var pageTypeOption, out var controllerNameOption, out var viewsOption, out var overwriteOption,
-            out var authOption, out var aadb2cInstanceOption);
+            out var authOption, out var aadb2cInstanceOption, out var susiPolicyOption, out var signedOutCallbackOption, out var resetPasswordPolicyIdOption,
+            out var editProfilePolicyIdOption, out var domainOption, out var callbackPathOption, out var useLocalDbOption);
 
         builder.AddScaffolder("sayedha-test")
             .WithDisplayName("Entra Auth")
@@ -36,6 +37,12 @@ public static class Program
             .WithOption(authOption)
             // mock assumes individualb2c was selected
             .WithOption(aadb2cInstanceOption)
+            .WithOption(susiPolicyOption)
+            .WithOption(resetPasswordPolicyIdOption)
+            .WithOption(editProfilePolicyIdOption)
+            .WithOption(domainOption)
+            .WithOption(callbackPathOption)
+            .WithOption(useLocalDbOption)
             .WithStep<MockStep>(config =>
             {
                 var step = config.Step;
@@ -43,14 +50,19 @@ public static class Program
                 var authSelected = context.GetOptionResult(authOption);
                 var aadInstance = context.GetOptionResult(aadb2cInstanceOption);
                 context.Properties.Add("authSelected", authSelected);
-                System.Console.WriteLine($"auth selected: {authSelected}");
-                System.Console.WriteLine($"aadb2cinstance: {aadInstance}");
+                System.Console.WriteLine($"auth selected: {context.GetOptionResult(authOption)}");
+                System.Console.WriteLine($"aadb2cinstance: {context.GetOptionResult(aadb2cInstanceOption)}");
+                System.Console.WriteLine($"susiPolicy: {context.GetOptionResult(susiPolicyOption)}");
+                System.Console.WriteLine($"resetPasswordPolicyId: {context.GetOptionResult(resetPasswordPolicyIdOption)}");
+                System.Console.WriteLine($"domain: {context.GetOptionResult(domainOption)}");
+                System.Console.WriteLine($"callbackPath: {context.GetOptionResult(callbackPathOption)}");
+                System.Console.WriteLine($"useLocalDb: {context.GetOptionResult(useLocalDbOption)}");
             });
 
         builder.AddScaffolder("blazor-empty")
             .WithDisplayName("Razor Component")
             .WithCategory("Blazor")
-            .WithDescription("222222Add an empty razor component to a given project")
+            .WithDescription("Add an empty razor component to a given project")
             .WithOption(projectOption)
             .WithOption(fileNameOption)
             .WithStep<DotnetNewScaffolderStep>(config =>
@@ -171,7 +183,7 @@ public static class Program
             .WithMvcViewsStep();
 
         builder.AddScaffolder("blazor-crud")
-            .WithDisplayName("2222Razor Components with EntityFrameworkCore (CRUD)")
+            .WithDisplayName("Razor Components with EntityFrameworkCore (CRUD)")
             .WithCategory("Blazor")
             .WithDescription("Generates Razor Components using Entity Framework for Create, Delete, Details, Edit and List operations for the given model")
             .WithOptions([projectOption, modelNameOption, dataContextClassRequiredOption, databaseProviderRequiredOption, pageTypeOption, prereleaseOption])
@@ -360,7 +372,14 @@ public static class Program
         out ScaffolderOption<bool> viewsOption,
         out ScaffolderOption<bool> overwriteOption,
         out ScaffolderOption<string>authOption,
-        out ScaffolderOption<string> aadb2cInstanceOption)
+        out ScaffolderOption<string> aadb2cInstanceOption,
+        out ScaffolderOption<string> susiPolicyOption,
+        out ScaffolderOption<string> signedOutCallbackOption,
+        out ScaffolderOption<string> resetPasswordPolicyId,
+        out ScaffolderOption<string> editProfilePolicyIdOption,
+        out ScaffolderOption<string>domainOption,
+        out ScaffolderOption<string> callbackPathOption,
+        out ScaffolderOption<bool>useLocalDbOption)
     {
         projectOption = new ScaffolderOption<string>
         {
@@ -526,8 +545,57 @@ public static class Program
             DisplayName = "AAdB2CInstance",
             CliOption = Constants.CliOptions.AadB2CInstanceOption,
             Description = "The Azure Active Directory B2C instance to connect to (use with IndividualB2C auth).",
-            Required = true,
         };
+
+        susiPolicyOption = new ScaffolderOption<string> {
+            DisplayName = "SignUpSignInPolicyId",
+            CliOption = Constants.CliOptions.SusiOptionPolicyIdOption,
+            Description = "The sign-in and sign-up policy ID for this project (use with IndividualB2C auth).",
+        };
+
+        signedOutCallbackOption = new ScaffolderOption<string> {
+            DisplayName = "SignedOutCallbackPath",
+            CliOption = Constants.CliOptions.SignedOutCallbackOption,
+            Description = "The global signout callback (use with IndividualB2C auth).",
+        };
+
+        resetPasswordPolicyId = new ScaffolderOption<string> {
+            DisplayName = "ResetPasswordPolicyId",
+            CliOption = "--resetPasswordPolicyId",
+            Description = "The reset password policy ID for this project (use with IndividualB2C auth).",
+        };
+
+        editProfilePolicyIdOption = new ScaffolderOption<string> {
+            DisplayName = "EditProfilePolicyId",
+            CliOption = "--editProfilePolicyId",
+            Description = "The edit profile policy ID for this project (use with IndividualB2C auth).",
+        };
+
+        domainOption = new ScaffolderOption<string> {
+            DisplayName = "Domain",
+            CliOption = "--domain",
+            Description = "The domain for the directory tenant (use with SingleOrg or IndividualB2C auth).",
+        };
+
+        callbackPathOption= new ScaffolderOption<string> {
+            DisplayName = "CallbackPath",
+            CliOption = "--callbackPath",
+            Description = "The request path within the application's base path of the redirect URI (use with SingleOrg or IndividualB2C auth).",
+        };
+
+        useLocalDbOption = new ScaffolderOption<bool> {
+            DisplayName = "Use LocalDb instead of SQLite?",
+            CliOption = "--uselocaldb",
+            Description = "Whether to use LocalDB instead of SQLite. This option only applies if --auth Individual or --auth IndividualB2C is specified.",
+            PickerType = InteractivePickerType.YesNo
+        };
+
+        //signedOutCallbackOption = new ScaffolderOption<string> {
+        //    DisplayName = "",
+        //    CliOption = "",
+        //    Description = "",
+        //    Required = true
+        //};
     }
 }
 

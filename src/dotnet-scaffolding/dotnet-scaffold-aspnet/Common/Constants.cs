@@ -34,6 +34,8 @@ internal class Constants
         // sayedha options
         public const string AuthOption = "--auth";
         public const string AadB2CInstanceOption = "--aadb2cinstance";
+        public const string SusiOptionPolicyIdOption = "--susipolicyid";
+        public const string SignedOutCallbackOption = "--signedoutcallbackpath";
     }
 
     public class Identity
