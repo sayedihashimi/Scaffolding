@@ -66,6 +66,10 @@ internal static class EfControllerScaffolderBuilderExtensions
         });
     }
 
+    public static IScaffoldBuilder SayedHaAuthTypeStep(this IScaffoldBuilder builder) {
+        throw new NotImplementedException();
+    }
+
     public static IScaffoldBuilder WithEfControllerCodeChangeStep(this IScaffoldBuilder builder)
     {
         builder = builder.WithStep<WrappedCodeModificationStep>(config =>

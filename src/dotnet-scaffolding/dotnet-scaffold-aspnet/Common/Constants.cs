@@ -31,6 +31,9 @@ internal class Constants
         //controller options
         public const string ActionsOption = "--actions";
         public const string ControllerNameOption = "--controller";
+        // sayedha options
+        public const string AuthOption = "--auth";
+        public const string AadB2CInstanceOption = "--aadb2cinstance";
     }
 
     public class Identity

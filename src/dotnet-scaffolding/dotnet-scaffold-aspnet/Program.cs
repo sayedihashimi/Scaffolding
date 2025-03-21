@@ -25,21 +25,26 @@ public static class Program
             out var projectOption, out var prereleaseOption, out var fileNameOption, out var actionsOption,
             out var areaNameOption, out var modelNameOption, out var endpointsClassOption, out var databaseProviderOption,
             out var databaseProviderRequiredOption, out var identityDbProviderRequiredOption, out var dataContextClassOption, out var dataContextClassRequiredOption,
-            out var openApiOption, out var pageTypeOption, out var controllerNameOption, out var viewsOption, out var overwriteOption);
+            out var openApiOption, out var pageTypeOption, out var controllerNameOption, out var viewsOption, out var overwriteOption,
+            out var authOption, out var aadb2cInstanceOption);
 
         builder.AddScaffolder("sayedha-test")
             .WithDisplayName("Entra Auth")
-            .WithCategory("Blazor2")
+            .WithCategory("Blazor")
             .WithDescription("Adds Entra Auth to the selected application")
             .WithOption(projectOption)
-            .WithOption(fileNameOption)
-            .WithStep<DotnetNewScaffolderStep>(config =>
+            .WithOption(authOption)
+            // mock assumes individualb2c was selected
+            .WithOption(aadb2cInstanceOption)
+            .WithStep<MockStep>(config =>
             {
                 var step = config.Step;
                 var context = config.Context;
-                // step.ProjectPath = context.GetOptionResult(projectOption);
-                // step.FileName = context.GetOptionResult(fileNameOption);
-                // step.CommandName = Constants.DotnetCommands.RazorComponentCommandName;
+                var authSelected = context.GetOptionResult(authOption);
+                var aadInstance = context.GetOptionResult(aadb2cInstanceOption);
+                context.Properties.Add("authSelected", authSelected);
+                System.Console.WriteLine($"auth selected: {authSelected}");
+                System.Console.WriteLine($"aadb2cinstance: {aadInstance}");
             });
 
         builder.AddScaffolder("blazor-empty")
@@ -353,7 +358,9 @@ public static class Program
         out ScaffolderOption<string> pageTypeOption,
         out ScaffolderOption<string> controllerNameOption,
         out ScaffolderOption<bool> viewsOption,
-        out ScaffolderOption<bool> overwriteOption)
+        out ScaffolderOption<bool> overwriteOption,
+        out ScaffolderOption<string>authOption,
+        out ScaffolderOption<string> aadb2cInstanceOption)
     {
         projectOption = new ScaffolderOption<string>
         {
@@ -504,6 +511,22 @@ public static class Program
             Description = "Option to enable overwriting existing files",
             Required = true,
             PickerType = InteractivePickerType.YesNo
+        };
+
+        authOption = new ScaffolderOption<string> {
+            DisplayName = "Auth Type",
+            CliOption = Constants.CliOptions.AuthOption,
+            Description = "Entra auth type",
+            Required = true,
+            PickerType = InteractivePickerType.CustomPicker,
+            CustomPickerValues = new string[] { "IndividualB2C", "SingleOrg", "MultiOrg" }
+        };
+
+        aadb2cInstanceOption = new ScaffolderOption<string> {
+            DisplayName = "AAdB2CInstance",
+            CliOption = Constants.CliOptions.AadB2CInstanceOption,
+            Description = "The Azure Active Directory B2C instance to connect to (use with IndividualB2C auth).",
+            Required = true,
         };
     }
 }
